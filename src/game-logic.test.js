@@ -1,4 +1,4 @@
-import {W, B, E, tile, score, playerTurn, takeTurn} from './game-logic';
+import {W, B, E, tile, score, playerTurn, takeTurn, whatTile,} from './game-logic';
 
 test('score() gives the correct score for board configuration.', () => {
   const board = [
@@ -83,4 +83,54 @@ test('takeTurn() errors if a piece is not placed adjacent to another piece.', ()
     [E, E, E, E, E, E]
   ];
   expect(() => takeTurn(board2, [1, 0])).toThrow('Error: The piece must be placed adjacent to another piece.');
+});
+
+test('takeTurn() replaces an empty space with the correct letter.', () => {
+  const board = [
+    [E, E, E, E, E, E],
+    [E, E, E, E, E, E],
+    [E, E, W, B, E, E],
+    [E, E, B, W, E, E],
+    [E, E, E, E, E, E],
+    [E, E, E, E, E, E]
+  ];
+  expect(whatTile(board, [1, 1])).toEqual(E);
+  takeTurn(board, [1, 1]);
+  expect(whatTile(board, [1, 1])).toEqual(B);
+  takeTurn(board, [4, 4]);
+  expect(whatTile(board, [4, 4])).toEqual(W);
+  takeTurn(board, [1, 3]);
+  expect(whatTile(board, [1, 3])).toEqual(B);
+});
+
+test('whatTile() returns the tile that it is asked to.', () => {
+  const board = [
+    [E, E, E, E, E, E],
+    [E, E, E, E, E, E],
+    [E, E, W, B, E, E],
+    [E, E, B, W, E, E],
+    [E, E, E, E, E, E],
+    [E, E, E, E, E, E]
+  ];
+  expect(whatTile(board, [5, 5])).toEqual(E);
+});
+
+test('takeTurn() flips tiles between it and another.', () => {
+  const board = [
+    [E, E, E, E, E, E],
+    [E, E, E, E, E, E],
+    [E, E, W, B, E, E],
+    [E, E, B, W, E, E],
+    [E, E, E, E, E, E],
+    [E, E, E, E, E, E]
+  ];
+  takeTurn(board, [1, 2]);
+  expect(board).toEqual([
+    [E, E, E, E, E, E],
+    [E, E, E, E, E, E],
+    [E, B, B, B, E, E],
+    [E, E, B, W, E, E],
+    [E, E, E, E, E, E],
+    [E, E, E, E, E, E]
+  ]);
 });
