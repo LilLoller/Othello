@@ -19,11 +19,11 @@ export const score = (board) => {
   for (let x = 0; x < board.length; ++x) {
     for (let y = 0; y < board.length; ++y) {
       const tileVal = board[y][x];
-      if(tileVal==B)
+      if(tileVal===B)
       {
         blackCount++;
       }
-      else if (tileVal==W)
+      else if (tileVal===W)
       {
         whiteCount++;
       }

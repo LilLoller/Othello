@@ -1,0 +1,28 @@
+.Othello {
+  background-color: green;
+  padding: 10px;
+}
+
+.gameInfo {
+  font-size: 36px;
+}
+
+.board {
+  font-size: 50px;
+}
+
+.black {
+  color: black;
+}
+
+.white {
+  color: white;
+}
+
+.gameInfo {
+  display: flex;
+}
+
+.gameInfo .spacer {
+  flex: 1;
+}

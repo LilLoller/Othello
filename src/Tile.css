@@ -1,0 +1,16 @@
+.Tile {
+  margin-right: 10px;
+  line-height: -15px;
+}
+
+.B {
+  color: black;
+}
+
+.W {
+  color: white;
+}
+
+.E {
+  color: green;
+}
