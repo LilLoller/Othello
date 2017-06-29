@@ -149,6 +149,8 @@ const flipTiles = (board, directions, coord) => {
 
     while (board[y][x] !== flipColor) {
       board[y][x] = flipColor;
+      x+= dirModifier.xMod;
+      y+= dirModifier.yMod;
     }
   }
 }

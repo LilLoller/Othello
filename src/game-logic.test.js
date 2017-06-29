@@ -155,3 +155,23 @@ test('getAnnotatedBoard() also shows where the player can next place a tile.', (
     [E, E, E, E, E, E]
   ]);
 });
+
+test('takeTurn() flips all tiles inbetween two identical tiles instead of just one.', () => {
+  const board = [
+    [E, E, E, E, E, E],
+    [E, E, E, E, E, E],
+    [E, E, W, B, E, E],
+    [E, B, B, W, E, E],
+    [E, E, E, E, E, E],
+    [E, E, E, E, E, E]
+  ];
+  takeTurn(board, [0, 3]);
+  expect(board).toEqual([
+    [E, E, E, E, E, E],
+    [E, E, E, E, E, E],
+    [E, E, W, B, E, E],
+    [W, W, W, W, E, E],
+    [E, E, E, E, E, E],
+    [E, E, E, E, E, E]
+  ]);
+});

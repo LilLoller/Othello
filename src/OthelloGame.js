@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './OthelloGame.css';
 import Board from './Board';
-import {W, B, E, getAnnotatedBoard} from './game-logic';
+import {W, B, E, getAnnotatedBoard, takeTurn} from './game-logic';
 
 class OthelloGame extends Component {
   constructor(props) {
@@ -18,10 +18,17 @@ class OthelloGame extends Component {
     };
   }
 
+  handlePlayerTurn(coord) {
+    takeTurn(this.state.board, coord);
+    this.setState({
+      board: this.state.board
+    });
+  }
+
   render() {
     return (
       <div className="OthelloGame">
-        <Board board={getAnnotatedBoard(this.state.board)}/>
+        <Board board={getAnnotatedBoard(this.state.board)} onPlayerTurn={this.handlePlayerTurn.bind(this)}/>
       </div>
     );
   }
