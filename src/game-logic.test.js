@@ -1,4 +1,4 @@
-import {W, B, E, tile, score, playerTurn, takeTurn, whatTile,} from './game-logic';
+import {W, B, E, P, tile, score, playerTurn, takeTurn, whatTile, getAnnotatedBoard} from './game-logic';
 
 test('score() gives the correct score for board configuration.', () => {
   const board = [
@@ -9,6 +9,7 @@ test('score() gives the correct score for board configuration.', () => {
     [E, E, E, E, E, E],
     [E, E, E, E, E, E]
   ];
+
 
   expect(score(board)).toEqual({
     black: 2,
@@ -131,6 +132,26 @@ test('takeTurn() flips tiles between it and another.', () => {
     [E, B, B, B, E, E],
     [E, E, B, W, E, E],
     [E, E, E, E, E, E],
+    [E, E, E, E, E, E]
+  ]);
+});
+
+test('getAnnotatedBoard() also shows where the player can next place a tile.', () => {
+  const board = [
+    [E, E, E, E, E, E],
+    [E, E, E, E, E, E],
+    [E, E, W, B, E, E],
+    [E, E, B, W, E, E],
+    [E, E, E, E, E, E],
+    [E, E, E, E, E, E]
+  ];
+  const annotatedBoard = getAnnotatedBoard(board);
+  expect(annotatedBoard).toEqual([
+    [E, E, E, E, E, E],
+    [E, P, P, P, P, E],
+    [E, P, W, B, P, E],
+    [E, P, B, W, P, E],
+    [E, P, P, P, P, E],
     [E, E, E, E, E, E]
   ]);
 });

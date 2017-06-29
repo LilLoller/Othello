@@ -1,6 +1,7 @@
 export const W = 'W';
 export const B = 'B';
 export const E = 'E';
+export const P = 'P';
 
 export const tile = (x, y, board) =>
   board[y][x];
@@ -43,10 +44,8 @@ export const playerTurn = (board) => {
 };
 
 
-const isOutOfBounds = (board, coord) => {
-  const [x, y] = coord;
-  return (x<0 || y<0 || x>board.length || y>board.length);
-}
+const isOutOfBounds = (board, [x, y]) =>
+  x<0 || y<0 || x>=board.length || y>=board.length;
 
 export const hasAdjacentPiece = (board, coord) => {
   const [xCoord, yCoord] = coord;
@@ -166,3 +165,9 @@ export const takeTurn = (board, coord) => {
   board[y][x] = playerTurn(board);
   flipTiles(board, findFlippableDirections(board, coord), coord);
 };
+
+const annotateSquare = (square, board, coord) =>
+  (square !== E) ? square : (hasAdjacentPiece(board, coord)) ? P : E;
+
+export const getAnnotatedBoard = (board) =>
+  board.map((row, y) => row.map((square, x) => annotateSquare(square, board, [x, y])));
