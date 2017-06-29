@@ -1,9 +1,9 @@
 import React from 'react';
-import './Othello.css';
+import './Board.css';
 import Row from './Row';
 import {B, score, playerTurn} from './game-logic';
 
-const Othello = ({board}) => {
+const Board = ({board}) => {
   const playerScore = score(board);
   const player = (playerTurn(board) === B) ? 'Black' : 'White';
   const rows = [];
@@ -12,7 +12,7 @@ const Othello = ({board}) => {
   }
 
   return (
-    <div className="Othello">
+    <div className="Board">
       <div className="gameInfo">
         <span className="playerInfo">Player: <span className={player.toLowerCase()}>{player}</span></span>
         <span className="spacer"/>
@@ -28,4 +28,4 @@ const Othello = ({board}) => {
   );
 };
 
-export default Othello;
+export default Board;

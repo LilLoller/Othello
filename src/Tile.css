@@ -1,6 +1,7 @@
 .Tile {
+  cursor: pointer;
   margin-right: 10px;
-  line-height: -15px;
+
 }
 
 .B {
@@ -11,6 +12,10 @@
   color: white;
 }
 
-.E {
+.P, .E {
   color: green;
+}
+
+.P:hover {
+  color: gray;
 }
