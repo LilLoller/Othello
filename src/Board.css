@@ -1,14 +1,13 @@
-.Board {
-  background-color: green;
-  padding: 10px;
-}
-
 .gameInfo {
   font-size: 36px;
 }
 
 .board {
-  font-size: 50px;
+  display: inline-flex;
+  flex-direction: column;
+  border: 0 solid black;
+  border-top-width: 1px;
+  border-left-width: 1px;
 }
 
 .black {
