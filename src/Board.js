@@ -14,10 +14,15 @@ const Board = ({board, onPlayerTurn}) => {
   return (
     <div className="Board">
       <div className="gameInfo">
-        <span className="playerInfo">Player: <span className={player.toLowerCase()}>{player}</span></span>
+        <span className="playerInfo">
+          <span className="label">Player:</span>
+          <span className={player.toLowerCase()}>{player}</span>
+        </span>
         <span className="spacer"/>
-        <span className="scoreInfo">Score:
-          <span className="black">{playerScore.black}</span> :
+        <span className="scoreInfo">
+          <span className="label">Score:</span>
+          <span className="black">{playerScore.black}</span>
+          <span className="scoreDelimitter">-</span>
           <span className="white">{playerScore.white}</span>
         </span>
       </div>
