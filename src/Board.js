@@ -5,9 +5,9 @@ import {B, score, playerTurn} from './game-logic';
 
 const Board = ({board, onPlayerTurn}) => {
   const playerScore = score(board);
-  const player = (playerTurn(board) === B) ? 'Black' : 'White';
+  const player = (board.playerTurn === B) ? 'Black' : 'White';
   const rows = [];
-  for (const row of board) {
+  for (const row of board.tiles) {
     rows.push(<Row key={rows.length} y={rows.length} tiles={row} onPlayerTurn={onPlayerTurn}/>);
   }
 

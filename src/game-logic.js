@@ -3,23 +3,21 @@ export const B = 'B';
 export const E = 'E';
 export const P = 'P';
 
-export const tile = (x, y, board) =>
-  board[y][x];
+export const createBoard = (tiles) => ({
+  playerTurn: B,
+  tiles
+});
 
-export const whatTile = (board, coord) => {
-  const [xCoord, yCoord] = coord;
-  let x = xCoord;
-  let y = yCoord;
-  return board[y][x];
-}
+export const tile = (board, [x, y]) =>
+  board.tiles[y][x];
 
 export const score = (board) => {
   let blackCount = 0;
   let whiteCount = 0;
 
-  for (let x = 0; x < board.length; ++x) {
-    for (let y = 0; y < board.length; ++y) {
-      const tileVal = board[y][x];
+  for (let x = 0; x < board.tiles.length; ++x) {
+    for (let y = 0; y < board.tiles.length; ++y) {
+      const tileVal = board.tiles[y][x];
       if(tileVal===B)
       {
         blackCount++;
@@ -38,14 +36,8 @@ export const score = (board) => {
   };
 };
 
-export const playerTurn = (board) => {
-  const playerScore = score(board);
-  return (playerScore.black === playerScore.white) ? B : W;
-};
-
-
 const isOutOfBounds = (board, [x, y]) =>
-  x<0 || y<0 || x>=board.length || y>=board.length;
+  x<0 || y<0 || x>=board.tiles.length || y>=board.tiles.length;
 
 export const hasAdjacentPiece = (board, coord) => {
   const [xCoord, yCoord] = coord;
@@ -58,7 +50,7 @@ export const hasAdjacentPiece = (board, coord) => {
       if(isOutOfBounds(board, [x, y])){
         continue;
       }
-      if(board[y][x]!==E){
+      if(board.tiles[y][x]!==E){
           return true;
       }
     }
@@ -101,9 +93,8 @@ const DIRECTIONS = {
   }
 };
 
-const findFlippableDirections = (board, coord) => {
-  const [xCoord, yCoord] = coord;
-  const startColor = board[yCoord][xCoord];
+const findFlippableDirections = (board, [xCoord, yCoord]) => {
+  const startColor = board.tiles[yCoord][xCoord];
   const alternateColor = (startColor === W) ? B : W;
   const flippableDirections = [];
 
@@ -112,7 +103,7 @@ const findFlippableDirections = (board, coord) => {
     let x = xCoord + dirModifier.xMod;
     let y = yCoord + dirModifier.yMod;
 
-    if (!isOutOfBounds(board, [x, y]) && (board[y][x] === alternateColor)) {
+    if (!isOutOfBounds(board, [x, y]) && (board.tiles[y][x] === alternateColor)) {
       let isAlternateColor = true;
 
       do {
@@ -123,7 +114,7 @@ const findFlippableDirections = (board, coord) => {
           isAlternateColor = false;
         }
         else {
-          const nextTile = board[y][x];
+          const nextTile = board.tiles[y][x];
           if (nextTile === E) {
             isAlternateColor = false;
           }
@@ -139,37 +130,42 @@ const findFlippableDirections = (board, coord) => {
   return flippableDirections;
 }
 
-const flipTiles = (board, directions, coord) => {
-  const [xCoord, yCoord] = coord;
-  const flipColor = board[yCoord][xCoord];
+const flipTiles = (board, directions, [xCoord, yCoord]) => {
+  const flipColor = board.tiles[yCoord][xCoord];
   for (const dirName of directions) {
     const dirModifier = DIRECTIONS[dirName];
     let x = xCoord + dirModifier.xMod;
     let y = yCoord + dirModifier.yMod;
 
-    while (board[y][x] !== flipColor) {
-      board[y][x] = flipColor;
+    while (board.tiles[y][x] !== flipColor) {
+      board.tiles[y][x] = flipColor;
       x+= dirModifier.xMod;
       y+= dirModifier.yMod;
     }
   }
 }
 
+const alternatePlayer = (player) =>
+  (player === B) ? W : B;
+
 export const takeTurn = (board, coord) => {
   const [x, y] = coord;
-  if(board[y][x] !== E) {
+  if(board.tiles[y][x] !== E) {
     throw new Error('Error: You cannot place a piece on an occupied square.');
   }
 
   if(!hasAdjacentPiece(board, coord)){
     throw new Error('Error: The piece must be placed adjacent to another piece.')
   }
-  board[y][x] = playerTurn(board);
+  board.tiles[y][x] = board.playerTurn;
+  board.playerTurn = alternatePlayer(board.playerTurn);
   flipTiles(board, findFlippableDirections(board, coord), coord);
 };
 
 const annotateSquare = (square, board, coord) =>
   (square !== E) ? square : (hasAdjacentPiece(board, coord)) ? P : E;
 
-export const getAnnotatedBoard = (board) =>
-  board.map((row, y) => row.map((square, x) => annotateSquare(square, board, [x, y])));
+export const getAnnotatedBoard = (board) => ({
+  ...board,
+  tiles: board.tiles.map((row, y) => row.map((square, x) => annotateSquare(square, board, [x, y])))
+});

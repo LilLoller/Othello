@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import './OthelloGame.css';
 import Board from './Board';
-import {W, B, E, getAnnotatedBoard, takeTurn} from './game-logic';
+import {W, B, E, getAnnotatedBoard, takeTurn, createBoard} from './game-logic';
 
 class OthelloGame extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      board: [
-        [E, E, E, E, E, E],
-        [E, E, E, E, E, E],
-        [E, E, W, B, E, E],
-        [E, E, B, W, E, E],
-        [E, E, E, E, E, E],
-        [E, E, E, E, E, E]
-      ]
+      board: createBoard([
+        [E, E, E, E, E, E, E, E],
+        [E, E, E, E, E, E, E, E],
+        [E, E, E, E, E, E, E, E],
+        [E, E, E, B, W, E, E, E],
+        [E, E, E, W, B, E, E, E],
+        [E, E, E, E, E, E, E, E],
+        [E, E, E, E, E, E, E, E],
+        [E, E, E, E, E, E, E, E]
+      ])
     };
   }
 
